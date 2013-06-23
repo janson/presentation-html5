@@ -1,0 +1,550 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>reveal.js - The HTML Presentation Framework</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/sky.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+    <script src="js/jquery-2.0.1.min.js"></script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+		<div class="reveal">
+      <div class="slides">
+
+        <section>
+          <!-- ------------------------ Main Slide ------------------------ -->
+          <h1>&lt;media&gt;</h1>
+          <h2>Media tags are dead,&nbsp;long live media tags!</h2>
+          <p>Janson Hartliep - <a href="http://twitter.com/_janson_">@_janson_</a></p>
+        </section>
+
+        <section>
+          <!-- ------------------------ The Past ------------------------ -->
+          <section>
+            <h2>Moving...</h2>
+            <p><img src="assets/cern.png" height="300" /><br /></p>
+            <h1 class="fragment" data-fragment-index="0"><blink>stuff</blink></h1>
+          </section>
+
+          <section>
+            <h2>Images!</h2>
+            <p>
+              <img src="assets/omgcat.gif" height="400" />
+            </p>
+          </section>
+
+          <section>
+            <h2>Macromedia Flash</h2>
+            <img src="assets/flash.jpg" />
+          </section>
+          
+          <section>
+            <h2>Javascript</h2>
+            <canvas id="golCanvas" style="background-color: #000; border-radius: 10px; height: 500px; width: 500px;"></canvas>
+            <script>
+            var canvas = document.getElementById("golCanvas");
+            canvas.width = $(document).width();
+            canvas.height = $(document).height();
+            var WIDTH = canvas.width;
+            var HEIGHT = canvas.height;
+            var ctx = canvas.getContext("2d");
+            var LEN = 10;
+            var x = Math.floor(WIDTH/LEN);
+            var y = HEIGHT/LEN;
+            var myGol;
+            var golTmp;
+
+            function initTmp(){
+              for(var xVal = 0; xVal<=x+2;xVal++){
+                golTmp[xVal] = new Array();
+                for(var yVal = 0; yVal<=y+2; yVal++){
+                  golTmp[xVal][yVal] = 0;
+                }
+              }	
+            }	
+
+            function initMatrix(){
+              // reset matrix
+              myGol = new Array();
+              golTmp = new Array();
+
+              for(var xVal = 0; xVal<=x+2;xVal++){
+                myGol[xVal] = new Array();
+                golTmp[xVal] = new Array();
+                for(var yVal = 0; yVal<=y+2; yVal++){
+                  golTmp[xVal][yVal] = 0;
+                  var randVal = Math.floor((Math.random()*2));
+                  myGol[xVal][yVal] = randVal;
+                  if (randVal == 1){
+                    draw(xVal+1,yVal+1)
+                  }
+                }
+              }
+
+
+            }
+
+            function draw(x,y){
+              ctx.fillRect(LEN*(x-1),LEN*(y-1),LEN,LEN);
+            }
+
+            function nextStep(){
+              // reset tempArray
+              initTmp();
+              // reset canvas
+              ctx.fillStyle = "rgb(37,38,30)";
+              ctx.fillRect(0,0,WIDTH,HEIGHT);
+
+              for(var xVal = 1; xVal<=x+1;xVal++){
+                for(var yVal = 1; yVal<=y+1; yVal++){
+                  var neighbourSum = myGol[xVal-1][yVal] + myGol[xVal-1][yVal-1] + myGol[xVal-1][yVal+1] + myGol[xVal][yVal-1] + myGol[xVal][yVal+1] + myGol[xVal+1][yVal] + myGol[xVal+1][yVal+1] + myGol[xVal+1][yVal-1];
+                  if(myGol[xVal][yVal] == 1){
+                    if(neighbourSum == 2 || neighbourSum == 3){
+                      golTmp[xVal][yVal] = 1;
+                      ctx.fillStyle = "rgb(166,109,3)";
+                      draw(xVal,yVal);
+                    }
+                  } else {
+                    if(neighbourSum == 3) {
+                      golTmp[xVal][yVal] = 1;
+                      ctx.fillStyle = "rgb(191,144,4)";
+                      draw(xVal,yVal);
+                    }
+                  }
+                }
+              }
+
+              myGol = golTmp.slice();
+
+            }
+
+            initMatrix();
+            setInterval(nextStep, 50);
+            </script>
+          </section>
+
+          <section>
+            <h2>CSS</h2>
+            <div>
+              <div class='drop'></div>
+            </div>
+            <style type="text/css">
+              .drop {
+                background: rgba(255, 255, 245, 1);
+                border: 4px solid rgba(255, 245, 235, 1);
+                border-radius: 100%;
+                box-shadow: inset -0.1em 0 2em 0.5em rgba(255, 255, 255, 0.5), 
+                inset -0.1em 0 0.5em 0 rgba(0, 0, 0, 0.8);
+                position: relative;
+                margin: 0 auto;
+                width: 12em; 
+                height: 12em;
+                overflow: hidden;
+              }
+
+              .drop:before,
+              .drop:after {
+                content:"";
+                display:block;
+                position:absolute;
+              }
+
+              /* Drop */
+
+              .drop:before {
+                background: rgba(167, 217, 234, 1);
+                border-radius: 100%;
+
+                /* Drop start */
+
+                box-shadow: 0 0 0 0.1em rgba(167, 217, 234, 0.8), 
+                0 0 0 0.15em rgba(167, 217, 234, 0.8), 
+                0 0 0 0.2em rgba(167, 227, 234, 0.8), 
+                0 0 0 0.25em rgba(167, 227, 234, 0.8), 
+                0 0 0 0.3em rgba(167, 227, 234, 0.8), 
+                0 0 0 0.35em rgba(167, 227, 234, 0.8), 
+                0 0 0 0.4em rgba(167, 227, 234, 0.8), 
+                0 0 0 0.45em rgba(167, 227, 234, 0.8), 
+                0 0 0 0.5em rgba(167, 227, 234, 0.8);
+                top: 0%; left: 50%;
+
+                /* The "width" and "height" of the division must be smaller than the "box-shadow" total size. So we can control different variant sizes. */
+
+                width: 0.2em; 
+                height: 0.2em;
+                animation: fall 3.5s cubic-bezier(0.5, 0, 1, 0.5) infinite;
+              }
+
+              /* Surface */
+
+              .drop:after {
+                background: rgb(52, 152, 219);
+                background: linear-gradient(rgba(52, 255, 255, 1) 0%, rgba(52, 152, 219, 1) 10%, rgba(152, 252, 219, 1) 100%);
+                border-radius: 100% 0 50% 0;
+                left: 0; 
+                bottom: 0;
+                width: inherit; 
+                height: 3em;
+                opacity: 0.7;
+                animation: surface 3s linear infinite;
+              }
+
+              /* Drop animation */
+
+              @keyframes fall  {
+
+                /* Drop form */
+
+                5%, 15%  {
+                  box-shadow: 0 -1.4em 0 0.1em rgba(167, 217, 234, 1), 
+                  0 -0.8em 0 0.15em rgba(167, 217, 234, 1), 
+                  0 -0.3em 0 0.2em rgba(167, 217, 234, 1), 
+                  0 -0.1em 0 0.25em rgba(167, 217, 234, 1), 
+                  0 0 0 0.3em rgba(167, 217, 234, 1), 
+                  0 0.2em 0 0.35em rgba(167, 217, 234, 1), 
+                  0 0.4em 0 0.4em rgba(167, 217, 234, 1), 
+                  0 0.6em 0 0.45em rgba(167, 217, 234, 1), 
+                  0 0.8em 0 0.5em rgba(167, 217, 234, 1);
+                }
+
+                /* Drop fall */
+
+                16%  {
+                  top: 80%;
+                }
+
+                /* Contact surface */
+
+                18%  {
+                  top: 80%;
+                  box-shadow: 1em -8em 0 0.2em rgba(177, 227, 234, 1), 
+                  -2.2em -3.8em 0 0.1em rgba(177, 227, 234, 1), 
+                  3em -2.85em 0 0.3em rgba(177, 227, 234, 1), 
+                  -3.5em -4em 0 0.2em rgba(177, 227, 234, 1), 
+                  0 0 0 0.3em rgba(177, 227, 234, 1), 
+                  2em -2em 0 0.2em rgba(177, 227, 234, 1), 
+                  -0.3em -3em 0 0.2em rgba(177, 227, 234, 1), 
+                  0.5em -5em 0 0.35em rgba(177, 227, 234, 1), 
+                  -3em -1em 0 0.3em rgba(177, 227, 234, 1);
+                }
+
+                /* Dispersion */
+
+                30%  {
+                  top: 90%;
+                  box-shadow: 1.5em 0 0 0.2em rgba(252, 252, 255, 0.1), 
+                  -2em 0 0 0.15em rgba(252, 252, 255, 0.1), 
+                  3em 0 0 0.2em rgba(252, 252, 255, 0.1), 
+                  -2em 0 0 0.25em rgba(252, 252, 255, 0.1), 
+                  0 0 0 0.2em rgba(252, 252, 255, 0.1), 
+                  2.35em 0 0 0.3em rgba(252, 252, 255, 0.1), 
+                  -0.5em 0 0 0.2em rgba(252, 252, 255, 0.1), 
+                  1em 0 0 0.3em rgba(252, 252, 255, 0.1), 
+                  -4em 0 0 0.4em rgba(252, 252, 255, 0.1);
+                }
+
+                /* Hidden */
+
+                40%, 100%  {
+                  top: 95%;
+                  background: rgba(255, 255, 255, 1);
+                  box-shadow: 1.8em 0.5em 0 0.2em rgba(255, 255, 255, 0), 
+                  -3em 0.5em 0 0.1em rgba(255, 255, 255, 0), 
+                  4em 0.5em 0 0.1em rgba(255, 255, 255, 0), 
+                  -3.5em 0.5em 0 0.1em rgba(255, 255, 255, 0), 
+                  0 0 0 0.3em rgba(255, 255, 215, 0), 
+                  2.45em 0.5em 0 0.1em rgba(255, 255, 255, 0), 
+                  -0.8em 0.5em 0 0.2em rgba(255, 255, 255, 0), 
+                  1.5em 0.5em 0 0.3em rgba(255, 255, 255, 0), 
+                  -4.5em 0.5em 0 0.2em rgba(255, 255, 255, 0);
+                }
+              }
+
+              /* Animation of water surface */
+
+              @keyframes surface  {
+                50%  {
+                  border-radius: 0 75% 0 75%;
+                  opacity: 0.5;
+                  height: 3.5em;
+                }
+              }
+            </style>
+          </section>
+        </section>
+
+        <section>
+          <!-- ------------------------ Native Elements ------------------------ -->
+          <section>
+            <h2>Media <br />1st Class Citizens</h2>
+            <ul class='fragment'>
+              <li>Native Tags</li>
+              <li>DOM Manipulation</li>
+              <li>Holistic experience</li>
+            </ul>
+          </section>
+          <section>
+            <h3>Native Tags</h3>
+            <pre><code class="html"> 
+              <audio src="audio.mp3" preload="auto" controls=""></audio>
+            </code></pre>
+            <pre><code class="html">
+              <video controls="">
+                <source src="foo.ogg" type="video/ogg">
+                <source src="foo.mp4" type="video/mp4">
+              </video>
+            </code></pre>
+            <pre><code class="html">
+              <img src="image.svg" alt="oooohhhh yeahhhhh" />
+            </code></pre>
+          </section>
+          <section>
+            <h3>DOM Manipulation</h3>
+            <p><a href="http://craftymind.com/factory/html5video/CanvasVideo.html">Video+Canvas</a></p>
+          </section>
+          <section>
+            <h3>Holistic experience</h3>
+            <p><a href="http://chrome.com/campaigns/rollit">Video+CSS</a></p>
+          </section>
+        </section>
+
+        <section>
+          <!-- ------------------------ Audio Elements ------------------------ -->
+          <section>
+            <h2>Audio</h2>
+            <p class='fragment'>But remember! Autoplay is bad, mmmkay?</p>
+          </section>
+          <section>
+            <h3>Best Case</h3>
+            <pre><code class='html'>
+              <audio controls preload="auto" autoplay> 
+                <source src="elvis.mp3" />
+                <source src="elvis.ogg" />
+                <!-- now include flash fall back -->
+              </audio>
+            </code></pre>
+            <ul class='fragment'>
+              <li>src — a valid <abbr>URL</abbr></li>
+              <li>autoplay - boolean</li>
+              <li>loop — a boolean</li>
+              <li>controls - a boolean</li>
+              <li>preload - none | metadata | auto</li>
+            </ul>
+          </section>
+          <section>
+            <h3>Codecs</h3>
+            <p>Ogg and MP3</p>
+            <p><img src="assets/audio.png" /></p>
+            <p><small>https://www.scirra.com/blog/44/on-html5-audio-formats-aac-and-ogg</small></p>
+            <p>For now, <strong>polyfill</strong>: <a href="http://kolber.github.io/audiojs/">http://kolber.github.io/audiojs/</a></p>
+          </section>
+          <section>
+            <h3>Style & Responsiveness</h3>
+            <p>Limited CSS attached just to the controls.</p>
+            <p>Controls are styled just like form elements - <em>painfully</em></p>
+            <p>No controls? Use Javacript to kick off audio's events.</p>
+          </section>
+        </section>
+        <section>
+          <!-- ------------------------ Video Elements ------------------------ -->
+          <section>
+            <h2>Video</h2>
+          </section>
+          <section>
+            <h3>Best Case</h3>
+            <pre><code class='html'>
+              <video src="video.mp4" controls autobuffer>
+              </video>
+            </code></pre>
+            <ul class='fragment'>
+              <li>base attributes similar to audio</li>
+              <li>poster - an image file shown while no video data is available</li>
+            </ul>
+            <br />
+            <br />
+            <p><small>http://developers.whatwg.org/the-video-element.html#the-video-element</small></p>
+          </section>
+          <section>
+            <h3>Codecs & Headaches</h3>
+            <p>This is why we can't have nice things.</p>
+            <br />
+            <div class='fragment'>
+            <h4>H264 and WebM cover all browsers (except Firefox 3.6 which needs Ogg Theora)</h4>
+            <p>Just use <a href="http://www.mirovideoconverter.com/">http://www.mirovideoconverter.com/</a></p>
+          </div>
+          </section>
+          <section>
+            <h3>Libraries</h3>
+            <ul>
+              <li><a href="http://mediaelementjs.com/">mediaelementjs</a> - replicates HTML5 API </li>
+              <li><a href="http://www.videojs.com/">videojs</a> - OSS HTML5 player</li>
+              <li><a href="http://m.vid.ly/">vidly</a> - hosts & converts & renders</li>
+            </ul>
+          </section>
+          <section>
+            <h3>Code</h3>
+            <pre><code class='html' style='width:120%; margin-left: -10%;'>
+            <video width="640" height="360" controls>
+              <source src="__VIDEO__.MP4"  type="video/mp4" />
+              <source src="__VIDEO__.OGV"  type="video/ogg" />
+              <object width="640" height="360" type="application/x-shockwave-flash" data="__FLASH__.SWF">
+                <param name="movie" value="__FLASH__.SWF" />
+                <param name="flashvars" value="controlbar=over&amp;image=__POSTER__.JPG&amp;file=__VIDEO__.MP4" />
+                <img src="__VIDEO__.JPG" width="640" height="360" alt="__TITLE__"
+                 title="No video playback capabilities, please download the video below" />
+              </object>
+            </video>
+            <p>	
+              Closed Format:	<a href="__VIDEO__.MP4">"MP4"</a>
+              Open Format:	<a href="__VIDEO__.OGV">"Ogg"</a>
+            </p>
+            </code></pre>              
+            <p><a href="http://camendesign.com/code/video_for_everybody">camendesign.com/code/video_for_everybody</a><br />no scripting, FLASH fallback in pure markup</p>
+          </section>
+          <section>
+            <h3>Style & Responsiveness</h3>
+            <ul>
+              <li>Native controls are by the user agent.</li>
+              <li>Libraries decorate with other HTML & JS</li>
+            </ul>
+            <br />
+            <br />
+            <h4>Responsive?</h4>
+            <pre><code class='css'>
+            video {
+              max-width: 100%;
+              height: auto;
+            }
+            </code></pre>
+            <p><strong>or:</strong><a href="http://fitvidsjs.com/">fitvidsjs</a></p>
+          </section>
+        </section>
+
+        <section>
+          <!-- ------------------------ Image Elements ------------------------ -->
+          <section>
+            <h2>Images</h2>
+          </section>
+          <section>
+            <h3>Why Care</h3>
+            <p><img src="assets/retina-fail.png" /></p>
+          </section>
+          <section>
+            <h3>Best Case</h3>
+            <pre><code class='html'>
+              <img alt="The Breakfast Combo"
+               src="banner.jpeg"
+               srcset="banner-HD.jpeg 2x, banner-phone.jpeg 100w, banner-phone-HD.jpeg 100w 2x">
+            </code></pre>
+            <pre><code class='html'>
+            <picture width="500" height="500">
+               <source media="(min-width: 45em)" src="large.jpg">
+               <source media="(min-width: 18em)" src="med.jpg">
+               <source src="small.jpg">
+               <img src="small.jpg" alt="">
+               <p>Accessible text</p>
+            </picture>
+            </pre></code>
+            <p class='fragment'><strong>Spoiler!</strong> These are unintuitive, unimplemented, draft ideas.</p>
+          </section>
+          <section>
+            <h3>Don't Use Assets</h3>
+            <ul>
+              <li class='fragment'>Icon Fonts - <a href="http://symbolset.com/">symbolset</a></li>
+              <li class='fragment'>SVG - IE9 brought support!. (Android still needs a polyfill.)</li>
+            </ul>
+          </section>
+          <section>
+            <h3>Change The Asset</h3>
+            <h4>WebP</h4>
+            <p><q>"WebP is a new image format that provides lossless and lossy compression for images on the web."</q></p>
+            <p>By <a href="https://developers.google.com/speed/webp">Google</a></p>
+          </section>
+          <section>
+            <h3>Change the Asset</h3>
+            <h4>Progressive JPGs</h4>
+            <p><img src="assets/progressive.jpg" /></p>
+            <p><small><a href="http://en.joscandreu.com/blog/progressive-jpg-good-web-practice/">joscandreu.com</a></small></p>
+          </section>
+          <section>
+            <h3>Change the Asset</h3>
+            <h4>Super Compression</h4>
+            <p><img src="assets/compression.png" /></p>
+            <p><small><a href="http://blog.netvlies.nl/design-interactie/retina-revolution">Retina Revolution</a></small></p>
+          </section>
+          <section>
+            <h3>Style & Responsiveness</h3>
+            <pre><code class='css'>
+            img {
+              max-width: 100%;
+            }
+            </code></pre>
+          </section>
+        </section>
+
+        <section>
+          <!-- ------------------------ QA ------------------------ -->
+          <h1>Q&A</h1>
+          <p>Thanks! <a href="http://twitter.com/_janson_">@_janson_</a></p>
+        </section>
+      </div>
+    </div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+					// { src: 'plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }
+					// { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
